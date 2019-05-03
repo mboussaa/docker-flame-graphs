@@ -70,6 +70,7 @@ docker ps
 #In ~/docker-flame-graphs
 docker cp $(pwd) [CONTAINER_ID]:/docker-flame-graphs
 ```
+**NB:** Before copying the profiler, please verify that the `JAVA_HOME` path is correctly set in bin/create-java-perf-map.sh. by default, `JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/`.
 -On the host, pick up the JAVA process id (`JAVA_ID`)
 ```
 ps aux | grep java
@@ -86,6 +87,7 @@ apt install jmeter
 jmeter -n -t petclinic_test_plan.jmx -l out/jtllog.csv -j out/jmeterrun.log
 ```
 ## 4- Profile and generate Flame Graphs
+**NB:** Before start profiling, you might modify the time for which the recording will last. By default, `PERF_RECORD_SECONDS=60`. You might change this value in `docker-perf-java-record-stack` file. Approximately, JMeter tests run for 10 minutes so you can change it to 600 (in seconds) which corresponds to the time needed to profile stacktraces triggered by all tests.
 ```
 cd bin
 ./docker-perf-top `CONTAINER_ID` `JAVA_ID` 
@@ -97,5 +99,7 @@ cd bin
 cd FlameGraph
 ./difffolded.pl /tmp/out-13070.collapsed /tmp/out-24343.collapsed | ./flamegraph.pl > flamegraph-differential.svg
 ```
+-The differential Flame Graph will be generated in bin/
+
 
 
