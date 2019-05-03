@@ -1,0 +1,12 @@
+version: "3"
+
+services:
+
+  tests:
+    build: ./tests
+    command: echo Ready!
+
+  greetings:
+    build: ./greetings
+    ports:
+      - "8080:8080"

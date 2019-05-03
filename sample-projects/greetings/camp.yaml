@@ -1,0 +1,46 @@
+#
+# CAMP
+#
+# Copyright (C) 2017 -- 2019 SINTEF Digital
+# All rights reserved.
+#
+# This software may be modified and distributed under the terms
+# of the MIT license.  See the LICENSE file for details.
+#
+
+
+goals:
+  running:
+    - IntegrationTests
+
+
+components:
+
+  tests:
+    provides_services: [ IntegrationTests ]
+    requires_services: [ Greetings ]
+    implementation:
+      docker:
+        file: tests/Dockerfile
+    tests:
+      command: mvn -B test
+      reports:
+        format: junit
+        location: target/surefire-reports
+        pattern: .xml
+
+  greetings:
+    provides_services: [ Greetings ]
+    variables:
+      tomcat:
+        values: [ v8, v85, v8540 ]
+        realization:
+         - targets: [ greetings/Dockerfile ]
+           pattern: "tomcat:8"
+           replacements:
+             - tomcat:8
+             - tomcat:8.5
+             - tomcat:8.5.40
+    implementation:
+      docker:
+        file: greetings/Dockerfile

@@ -1,0 +1,78 @@
+goals:
+  running:
+    - Springpetclinic
+
+
+components:
+  springpetclinicPG:
+    provides_services: [Springpetclinic]
+    requires_services: [Postgresdb]
+    variables:
+      version:
+        type: version
+        values: [ springpetclinicpostgres ]
+        realization:
+          - targets: [ springpetclinicPG/Dockerfile ]
+            pattern: "IP_ADDRESS"
+            replacements: [ "163.172.29.81" ]
+          - targets: [ springpetclinicPG/Dockerfile ]
+            pattern: "DB_PROFILE"
+            replacements: [ "PostgreSQL" ]
+          - targets: [ docker-compose.yml ]
+            pattern: "build: ./springpetclinicMS"
+            replacements: [ "build: ./images/springpetclinicpg_0" ]   
+    implementation:
+      docker:
+        file: springpetclinicPG/Dockerfile
+
+  springpetclinicMS:
+    provides_services: [Springpetclinic]
+    requires_services: [Mysqldb]
+    variables:
+      version:
+        type: version
+        values: [ springpetclinicmysql ]
+        realization:
+          - targets: [ springpetclinicMS/Dockerfile ]
+            pattern: "IP_ADDRESS"
+            replacements: [ "163.172.29.81" ]
+          - targets: [ springpetclinicMS/Dockerfile ]
+            pattern: "DB_PROFILE"
+            replacements: [ "MySQL" ]
+    implementation:
+      docker:
+        file: springpetclinicMS/Dockerfile
+
+    
+  postgresdb:
+    provides_services: [Postgresdb]
+    variables:
+      version:
+        type: version
+        values: [ DBpostgres ]
+        realization:
+          - targets: [ docker-compose.yml ]
+            pattern: "3306:3306"
+            replacements: [ "5432:5432" ]  
+          - targets: [ docker-compose.yml ]
+            pattern: "MYSQL_ROOT_PASSWORD=petclinic"
+            replacements: [ "POSTGRES_PASSWORD=petclinic" ]
+          - targets: [ docker-compose.yml ]
+            pattern: "MYSQL_DATABASE=petclinic"
+            replacements: [ "POSTGRES_DB=petclinic" ]
+          - targets: [ docker-compose.yml ]
+            pattern: "build: ./mysqldb"
+            replacements: [ "build: ./images/postgresdb_0" ]
+    implementation:
+      docker:
+        file: postgresdb/Dockerfile
+
+  mysqldb:
+    provides_services: [Mysqldb]
+    variables:
+      version:
+        type: version
+        values: [ DBmysql ]
+    implementation:
+      docker:
+        file: mysqldb/Dockerfile

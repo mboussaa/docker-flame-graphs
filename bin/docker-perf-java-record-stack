@@ -11,7 +11,7 @@ if [ -z "$PERF_JAVA_TMP" ]; then
 fi
 
 if [ -z "$PERF_RECORD_SECONDS" ]; then
-  PERF_RECORD_SECONDS=15
+  PERF_RECORD_SECONDS=60
 fi
 
 if [ -z "$PERF_RECORD_FREQ" ]; then
