@@ -128,17 +128,13 @@ cd FlameGraph
 Differential Flame graphs will be generated in `bin/`. You can open it with your web browser.
 # Sample Results
 Config 1 Flame Graph: PetClinic + MySQL
-```
 ![Alt text](./bin/flamegraph-13070.svg)
 <img src="./bin/flamegraph-13070.svg">
-```
+
 Config 2 Flame Graph: PetClinic + Postgres
-```
 ![Alt text](./bin/flamegraph-24343.svg)
 <img src="./bin/flamegraph-24343.svg">
-```
+
 Differential Flame Graph (FG1 - FG2)
-```
 ![Alt text](./bin/flamegraph-differential.svg)
 <img src="./bin/flamegraph-differential.svg">
-```
