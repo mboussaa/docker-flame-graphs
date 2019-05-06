@@ -83,7 +83,7 @@ On the host, pick up the Java process ID (`JAVA_ID`) of the PetClinic applicatio
 ```
 ps aux | grep java
 ```
-Verify that `JAVA_HOME`  points to the right JDK in `create-java-perf-map.sh`
+Verify that `JAVA_HOME` (of the container not the host) points to the right JDK in `create-java-perf-map.sh`
 ```
 vi bin/create-java-perf-map.sh
 export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
@@ -134,7 +134,7 @@ The `difffolded.pl` script is used to show the difference between the two previo
 cd FlameGraph
 ./difffolded.pl /tmp/out-JAVA_ID.collapsed /tmp/out-JAVA_ID.collapsed | ./flamegraph.pl > flamegraph-differential.svg
 ```
-Differential Flame graphs will be generated in `bin/`. You can open it with your web browser.
+Differential Flame graphs will be generated in `FlameGraph/`. You can open it with your web browser.
 
 # Sample Results
 <center><b>
